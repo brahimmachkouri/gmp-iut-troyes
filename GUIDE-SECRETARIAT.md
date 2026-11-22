@@ -66,8 +66,21 @@ Il suffit ensuite de le coller dans le mail.
 
 ### Supprimer un ancien document
 
-Ouvrir le document ou la semaine, cliquer sur **Supprimer** (en haut à droite) et confirmer.
+Ouvrir le document ou la semaine, cliquer sur **Supprimer l'entrée** (en haut) et confirmer.
 Ce n'est pas obligatoire, mais pensez à faire le ménage en fin d'année.
+
+**Attention : supprimer la fiche ne supprime pas le fichier PDF.** Le document disparaît du site,
+mais le PDF reste stocké et peut encore être ouvert par quelqu'un qui connaît son adresse.
+Pour le supprimer aussi :
+
+1. Ouvrir **Autres documents (PDF)** (ou **Emplois du temps** pour un emploi du temps), puis
+   n'importe quel document, ou cliquer sur « ＋ document ».
+2. Cliquer sur **Choisir un fichier** : la liste des PDF déjà envoyés s'affiche.
+3. Cliquer sur le PDF à retirer, puis sur **Supprimer les éléments sélectionnés**, et confirmer.
+4. Quitter la fiche avec la flèche ← en haut à gauche, **sans cliquer sur Publier** (si le
+   navigateur demande de confirmer, répondre oui). La suppression du PDF, elle, est immédiate.
+
+L'onglet **Media**, en haut de l'écran, ne montre que les photos des actualités, pas les PDF.
 
 ### Conseil pour les PDF
 
