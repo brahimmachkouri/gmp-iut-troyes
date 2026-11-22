@@ -65,7 +65,20 @@ function popupMessage(siteOrigin, status, payload, cookie) {
   const message = status === 'success'
     ? `authorization:github:success:${JSON.stringify({ token: payload, provider: 'github' })}`
     : `authorization:github:error:${JSON.stringify({ message: payload, provider: 'github' })}`;
-  const html = `<!doctype html><html lang="fr"><meta charset="utf-8"><title>Connexion GitHub</title><body><p>${status === 'success' ? 'Connexion réussie. Cette fenêtre va se fermer.' : 'Connexion impossible. Cette fenêtre va se fermer.'}</p><script nonce="${nonce}">if (window.opener) { window.opener.postMessage(${JSON.stringify(message)}, ${JSON.stringify(siteOrigin)}); window.close(); }</script></body></html>`;
+  // Protocole attendu par Decap : la fenêtre annonce « authorizing:github », Decap répond
+  // (depuis l'origine exacte du site), et seulement alors la fenêtre transmet le résultat.
+  const script = `(function () {
+  var origin = ${JSON.stringify(siteOrigin)};
+  var message = ${JSON.stringify(message)};
+  if (!window.opener) return;
+  window.addEventListener('message', function (e) {
+    if (e.origin !== origin || e.data !== 'authorizing:github') return;
+    window.opener.postMessage(message, origin);
+    setTimeout(function () { window.close(); }, 300);
+  });
+  window.opener.postMessage('authorizing:github', origin);
+})();`;
+  const html = `<!doctype html><html lang="fr"><meta charset="utf-8"><title>Connexion GitHub</title><body><p>${status === 'success' ? 'Connexion réussie. Cette fenêtre va se fermer.' : 'Connexion impossible. Cette fenêtre va se fermer.'}</p><script nonce="${nonce}">${script}</script></body></html>`;
   return new Response(html, {
     headers: {
       'content-type': 'text/html; charset=utf-8',
