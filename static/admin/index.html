@@ -5,6 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex">
     <title>Administration du site GMP</title>
+    <style>
+      /* Page de connexion : logo URCA à la place du logo Decap affiché en bas
+         (Decap ne propose pas d'option de configuration pour ce logo). */
+      [class*="NetlifyCreditIcon"] {
+        width: 140px !important;
+        height: 84px !important;
+        background: url("../images/logo-urca.png") center / contain no-repeat;
+      }
+      [class*="NetlifyCreditIcon"] svg { display: none; }
+    </style>
   </head>
   <body>
     <!-- Version figée volontairement : ne pas remplacer par une version flottante. -->

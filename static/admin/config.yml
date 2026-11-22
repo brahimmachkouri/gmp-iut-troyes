@@ -20,6 +20,9 @@ backend:
     deleteMedia: "Fichier supprimé : {{path}}"
 
 locale: fr
+# Logo de la page de connexion (chemin relatif à /admin/, valable aussi sous un sous-dossier GitHub Pages).
+logo:
+  src: ../images/logo-gmp.png
 # Adresse publique du site (liens « Voir en direct » de l'administration).
 site_url: https://brahimmachkouri.github.io/gmp-iut-troyes/
 display_url: https://brahimmachkouri.github.io/gmp-iut-troyes/
