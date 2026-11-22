@@ -1,0 +1,6 @@
+{{ define "main" }}
+{{ partial "bandeau.html" (dict "surtitre" "Département GMP" "titre" .Title "texte" .Params.description) }}
+<div class="shell inner-content">
+  <div class="prose">{{ .Content }}</div>
+</div>
+{{ end }}

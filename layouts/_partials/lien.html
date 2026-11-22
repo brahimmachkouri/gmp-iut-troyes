@@ -1,0 +1,10 @@
+{{- /*
+  Transforme un chemin interne (« /contact/ », « /fichiers/x.pdf ») en adresse qui tient
+  compte du sous-dossier éventuel du site (par exemple /gmp-iut-troyes/ sur GitHub Pages).
+  Les adresses complètes (https://…, mailto:…) et les ancres (#…) sont renvoyées telles quelles.
+*/ -}}
+{{- $u := . -}}
+{{- if and (strings.HasPrefix $u "/") (not (strings.HasPrefix $u "//")) -}}
+  {{- $u = relURL (strings.TrimPrefix "/" $u) -}}
+{{- end -}}
+{{- return $u -}}

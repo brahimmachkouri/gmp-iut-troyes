@@ -1,0 +1,6 @@
+{{- /* « Semaine 12 · du lundi 23 novembre au vendredi 27 novembre » */ -}}
+{{- $periode := printf "du %s au %s" (.lundi | time.Format "Monday 2 January") (.fin | time.Format "Monday 2 January") -}}
+{{- with .numero -}}
+  {{- return printf "Semaine %v · %s" . $periode -}}
+{{- end -}}
+{{- return printf "Semaine %s" $periode -}}

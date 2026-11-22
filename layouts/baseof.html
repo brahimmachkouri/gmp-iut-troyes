@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#4b3183">
+  {{- $description := .Params.description | default site.Params.description }}
+  <meta name="description" content="{{ $description }}">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{{ .Title }}">
+  <meta property="og:description" content="{{ $description }}">
+  <link rel="canonical" href="{{ .Permalink }}">
+  <link rel="icon" type="image/png" href="{{ partial "lien.html" "/images/logo-gmp.png" }}">
+  <title>{{ if .IsHome }}{{ site.Title }}{{ else if eq .Kind "404" }}Page introuvable — {{ site.Title }}{{ else }}{{ .Title }} — {{ site.Title }}{{ end }}</title>
+  {{- $css := resources.Get "css/style.css" | minify | fingerprint }}
+  <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
+</head>
+<body>
+  <a class="skip-link" href="#contenu">Aller au contenu</a>
+  {{ partial "header.html" . }}
+  <main id="contenu">
+    {{ block "main" . }}{{ end }}
+  </main>
+  {{ partial "footer.html" . }}
+  {{- $js := resources.Get "js/app.js" | minify | fingerprint }}
+  <script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>
+</body>
+</html>

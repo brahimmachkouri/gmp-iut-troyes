@@ -1,0 +1,32 @@
+{{ define "main" }}
+{{ partial "bandeau.html" (dict "surtitre" "Département GMP" "titre" .Title "texte" .Params.description) }}
+<div class="shell inner-content doc-index">
+  {{- range hugo.Data.rubriques }}
+  {{- $docs := partial "documents-de.html" .id }}
+  {{- $page := cond .page (site.GetPage (printf "/documents/%s" .id)) nil }}
+  {{- if or $docs $page }}
+  <section class="doc-group" aria-labelledby="rubrique-{{ .id }}">
+    <div class="doc-group-head">
+      <h2 id="rubrique-{{ .id }}">{{ with $page }}<a href="{{ .RelPermalink }}">{{ .Title }}</a>{{ else }}{{ .titre }}{{ end }}</h2>
+      {{- with $page }}
+      <p class="doc-permalink">Lien permanent (toujours la dernière version) : <a href="{{ .Permalink }}">{{ .Permalink }}</a> {{ partial "bouton-copier.html" (dict "url" .Permalink "libelle" .Title) }}</p>
+      {{- end }}
+    </div>
+    {{- if $docs }}
+    <ul class="doc-list">
+      {{- range $i, $d := $docs }}
+      <li>
+        <a class="lien-sortant" href="{{ partial "lien.html" $d.fichier }}" target="_blank" rel="noopener">{{ $d.titre }}<span class="visually-hidden"> (nouvel onglet)</span></a>
+        <span class="doc-meta">{{ $d.date | time.Format ":date_long" }} · {{ partial "fichier-info.html" $d.fichier }}{{ if and $page (eq $i 0) }} · <strong>version en cours</strong>{{ end }}</span>
+        {{- if not $page }}{{ partial "bouton-copier.html" (dict "url" (strings.TrimPrefix "/" $d.fichier | absURL) "libelle" $d.titre) }}{{ end }}
+      </li>
+      {{- end }}
+    </ul>
+    {{- else }}
+    <p class="doc-meta">Aucun document publié pour le moment.</p>
+    {{- end }}
+  </section>
+  {{- end }}
+  {{- end }}
+</div>
+{{ end }}

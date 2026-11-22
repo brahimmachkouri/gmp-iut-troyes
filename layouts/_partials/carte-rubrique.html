@@ -1,0 +1,15 @@
+{{- /* Encadré « dernier document » d'une rubrique. Entrée : l'identifiant de la rubrique. */ -}}
+{{- $id := . -}}
+{{- $rubrique := index (where hugo.Data.rubriques "id" $id) 0 -}}
+{{- $docs := partial "documents-de.html" $id -}}
+{{- $page := site.GetPage (printf "/documents/%s" $id) -}}
+<section class="doc-card" aria-labelledby="doc-{{ $id }}">
+  <h2 id="doc-{{ $id }}">{{ with $page }}<a href="{{ .RelPermalink }}">{{ $rubrique.titre }}</a>{{ else }}{{ $rubrique.titre }}{{ end }}</h2>
+  {{- if $docs }}
+    {{- $d := index $docs 0 }}
+    <p class="doc-meta">{{ $d.titre }} · mis à jour le {{ $d.date | time.Format ":date_long" }}</p>
+    <a class="button button-orange lien-sortant" href="{{ partial "lien.html" $d.fichier }}" target="_blank" rel="noopener">Ouvrir le document<span class="visually-hidden"> : {{ $rubrique.titre }}</span> <span class="doc-type">({{ partial "fichier-info.html" $d.fichier }})</span><span class="visually-hidden"> (nouvel onglet)</span></a>
+  {{- else }}
+    <p class="doc-meta">Aucun document publié pour le moment. <a href="{{ partial "lien.html" "/contact/" }}">Contacter le secrétariat</a></p>
+  {{- end }}
+</section>

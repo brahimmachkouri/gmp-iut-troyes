@@ -1,0 +1,21 @@
+{{ define "main" }}
+{{- /* Page à adresse fixe d'une rubrique : affiche le document le plus récent. */}}
+{{- $docs := partial "documents-de.html" .Params.rubrique }}
+{{ partial "bandeau.html" (dict "surtitre" "Documents" "titre" .Title "texte" .Params.description) }}
+<div class="shell inner-content resource-page">
+  {{- if $docs }}
+  {{- $d := index $docs 0 }}
+  <section class="doc-card doc-card-large" aria-labelledby="doc-titre">
+    <h2 id="doc-titre">{{ $d.titre }}</h2>
+    <p class="doc-meta">Mis à jour le {{ $d.date | time.Format ":date_long" }}</p>
+    {{- with $d.description }}<p>{{ . }}</p>{{ end }}
+    <a class="button button-orange lien-sortant" href="{{ partial "lien.html" $d.fichier }}" target="_blank" rel="noopener">Ouvrir le document <span class="doc-type">({{ partial "fichier-info.html" $d.fichier }})</span><span class="visually-hidden"> (nouvel onglet)</span></a>
+  </section>
+  <p class="doc-permalink">Cette adresse ne change jamais : elle mène toujours à la dernière version.<br>
+    <a href="{{ .Permalink }}">{{ .Permalink }}</a> {{ partial "bouton-copier.html" (dict "url" .Permalink "libelle" .Title) }}</p>
+  {{- else }}
+  <p class="empty-state">Aucun document publié pour le moment. <a href="{{ partial "lien.html" "/contact/" }}">Contacter le secrétariat du département</a></p>
+  {{- end }}
+  <a class="back-link" href="{{ partial "lien.html" "/documents/" }}">← Tous les documents</a>
+</div>
+{{ end }}

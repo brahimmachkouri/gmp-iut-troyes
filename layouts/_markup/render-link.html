@@ -1,0 +1,15 @@
+{{- /*
+  Liens écrits dans les textes (Markdown).
+  Les liens vers un autre site et les fichiers (PDF…) s'ouvrent dans un nouvel onglet,
+  avec une flèche visible et une mention pour les lecteurs d'écran (exigence RGAA).
+*/ -}}
+{{- $url := urls.Parse .Destination -}}
+{{- $externe := and (in (slice "http" "https") $url.Scheme) (ne $url.Host (urls.Parse site.BaseURL).Host) -}}
+{{- $fichier := in (slice ".pdf" ".doc" ".docx" ".xls" ".xlsx" ".ppt" ".pptx" ".zip") (lower (path.Ext $url.Path)) -}}
+<a href="{{ partial "lien.html" .Destination | safeURL }}"
+  {{- with .Title }} title="{{ . }}"{{ end }}
+  {{- if or $externe $fichier }} target="_blank" rel="noopener" class="lien-sortant"{{ end }}>
+  {{- .Text -}}
+  {{- if or $externe $fichier }}<span class="visually-hidden"> (nouvel onglet)</span>{{ end -}}
+</a>
+{{- /* */ -}}

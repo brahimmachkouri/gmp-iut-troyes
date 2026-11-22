@@ -1,0 +1,12 @@
+{{ define "main" }}
+{{ partial "bandeau.html" (dict "surtitre" "Vie du département" "titre" .Title "texte" .Params.description) }}
+<div class="shell inner-content">
+  {{- with .Pages.ByDate.Reverse }}
+  <div class="news-grid">
+    {{- range . }}{{ partial "carte-actualite.html" (dict "page" . "niveau" "h2") }}{{ end }}
+  </div>
+  {{- else }}
+  <p class="empty-state">Aucune actualité publiée pour le moment. Les informations de rentrée et les événements du département apparaîtront ici.</p>
+  {{- end }}
+</div>
+{{ end }}

@@ -1,0 +1,14 @@
+{{- /* Carte d'actualité. Entrée : dict "page" (l'actualité) et "niveau" ("h2" ou "h3"). */ -}}
+{{- $p := .page -}}
+<article class="news-card">
+  {{- with $p.Params.image }}
+  <img src="{{ partial "lien.html" . }}" alt="" loading="lazy">
+  {{- end }}
+  <time datetime="{{ $p.Date.Format "2006-01-02" }}">{{ $p.Date | time.Format ":date_long" }}</time>
+  {{- if eq .niveau "h2" }}
+  <h2><a href="{{ $p.RelPermalink }}">{{ $p.Title }}</a></h2>
+  {{- else }}
+  <h3><a href="{{ $p.RelPermalink }}">{{ $p.Title }}</a></h3>
+  {{- end }}
+  {{- with $p.Params.chapo }}<p>{{ . }}</p>{{ end }}
+</article>

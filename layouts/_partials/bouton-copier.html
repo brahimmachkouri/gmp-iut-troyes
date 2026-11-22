@@ -1,0 +1,3 @@
+{{- /* Bouton « Copier le lien ». Entrée : dict "url" "libelle".
+     Caché sans JavaScript (le lien reste visible à côté). */ -}}
+<button type="button" class="copy-button" data-copier="{{ .url }}" hidden>Copier le lien<span class="visually-hidden"> : {{ .libelle }}</span></button>

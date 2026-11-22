@@ -1,0 +1,7 @@
+name = "gmp-decap-auth"
+main = "src/index.js"
+compatibility_date = "2026-11-21"
+
+[vars]
+SITE_ORIGIN = "https://brahimmachkouri.github.io"
+GITHUB_SCOPE = "public_repo"

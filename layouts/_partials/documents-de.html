@@ -1,0 +1,23 @@
+{{- /*
+  Renvoie les documents d'une rubrique, du plus récent au plus ancien.
+  Entrée : l'identifiant de la rubrique (ex. « reglement-interieur »).
+  Les documents sont les fichiers de data/documents/, créés par Decap.
+  À date égale, le document créé en dernier l'emporte (le nom du fichier
+  commence par sa date et son heure de création).
+*/ -}}
+{{- $id := . -}}
+{{- $liste := slice -}}
+{{- range $nom, $d := hugo.Data.documents -}}
+  {{- if and (reflect.IsMap $d) (eq $d.rubrique $id) $d.fichier -}}
+    {{- $date := time.AsTime ($d.mis_a_jour | default "2000-01-01") -}}
+    {{- $tri := printf "%012d|%s" $date.Unix $nom -}}
+    {{- $liste = $liste | append (dict
+      "titre" ($d.titre | default "Document")
+      "fichier" $d.fichier
+      "description" $d.description
+      "date" $date
+      "tri" $tri
+    ) -}}
+  {{- end -}}
+{{- end -}}
+{{- return sort $liste "tri" "desc" -}}

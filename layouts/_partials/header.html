@@ -1,0 +1,27 @@
+<header class="site-header">
+  <div class="header-identity shell">
+    <a class="brand" href="{{ partial "lien.html" "/" }}" aria-label="Accueil du département GMP">
+      <img class="logo-gmp" src="{{ partial "lien.html" "/images/logo-gmp.png" }}" width="1343" height="682" alt="IUT de Troyes — Génie mécanique et productique">
+      <span class="brand-divider" aria-hidden="true"></span>
+      <img class="logo-urca" src="{{ partial "lien.html" "/images/logo-urca.png" }}" width="925" height="556" alt="Université de Reims Champagne-Ardenne">
+    </a>
+  </div>
+  <div class="nav-band">
+    <div class="nav-inner shell">
+      {{- $page := . }}
+      <nav class="site-nav" aria-label="Navigation principale">
+        {{- range site.Menus.main }}
+        <a href="{{ .URL }}"{{ if or ($page.IsMenuCurrent "main" .) ($page.HasMenuCurrent "main" .) }} aria-current="page"{{ end }}>{{ .Name }}</a>
+        {{- end }}
+      </nav>
+      <details class="mobile-nav">
+        <summary>Menu <span aria-hidden="true">☰</span></summary>
+        <nav aria-label="Navigation mobile">
+          {{- range site.Menus.main }}
+          <a href="{{ .URL }}">{{ .Name }}</a>
+          {{- end }}
+        </nav>
+      </details>
+    </div>
+  </div>
+</header>

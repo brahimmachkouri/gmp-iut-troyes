@@ -1,0 +1,45 @@
+{{ define "main" }}
+{{- $liens := hugo.Data.liens }}
+<section class="hero" aria-labelledby="hero-title">
+  <img class="hero-image" src="{{ partial "lien.html" "/images/atelier-gmp.jpg" }}" width="1800" height="839" alt="Étudiants dans l'atelier de fabrication du département GMP" fetchpriority="high">
+  <div class="hero-content shell">
+    <p class="eyebrow hero-eyebrow"><span class="eyebrow-dash" aria-hidden="true"></span>IUT de Troyes · Université de Reims Champagne-Ardenne</p>
+    <h1 id="hero-title">Génie mécanique<br><em>et productique</em></h1>
+    <p class="hero-subtitle">Département GMP</p>
+    <a class="button button-orange" href="{{ $liens.formation }}" target="_blank" rel="noopener">Découvrir le BUT <span aria-hidden="true">↗</span><span class="visually-hidden"> (nouvel onglet)</span></a>
+  </div>
+</section>
+
+{{- /* L'accueil ne met en avant que les actualités de moins de 12 mois. */}}
+{{- $actus := where (where site.RegularPages "Section" "actualites") "Date" "ge" (now.AddDate -1 0 0) }}
+{{- with $actus }}
+<section class="section news-section" aria-labelledby="news-title">
+  <div class="section-heading">
+    <div><p class="eyebrow eyebrow-purple">À la une</p><h2 id="news-title">Actualités</h2></div>
+    <a class="text-link" href="{{ partial "lien.html" "/actualites/" }}">Toutes les actualités <span aria-hidden="true">↗</span></a>
+  </div>
+  <div class="news-grid">
+    {{- range first 3 . }}{{ partial "carte-actualite.html" (dict "page" . "niveau" "h3") }}{{ end }}
+  </div>
+</section>
+{{- end }}
+
+<section class="section resources-section" aria-labelledby="resources-title">
+  <div class="section-heading">
+    <div><p class="eyebrow eyebrow-purple">L'essentiel au quotidien</p><h2 id="resources-title">Ressources pédagogiques</h2></div>
+    <p class="section-aside">Les accès utiles aux étudiants et enseignants du département, réunis au même endroit.</p>
+  </div>
+  {{ partial "grille-ressources.html" . }}
+</section>
+
+<section class="access-section" aria-labelledby="access-title">
+  <div class="shell access-inner">
+    <div class="access-heading"><p class="eyebrow">À portée de main</p><h2 id="access-title">Accès<br><em>institutionnels</em></h2></div>
+    <div class="access-grid">
+      {{- range $liens.acces }}
+      <a href="{{ partial "lien.html" .url }}" target="_blank" rel="noopener"><span>{{ .categorie }}</span><strong>{{ .libelle }}<span class="visually-hidden"> (nouvel onglet)</span></strong><span class="access-arrow" aria-hidden="true">↗</span></a>
+      {{- end }}
+    </div>
+  </div>
+</section>
+{{ end }}

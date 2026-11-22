@@ -1,0 +1,6 @@
+{{- /* « 03 25 42 46 19 » → « tel:+33325424619 » */ -}}
+{{- $chiffres := replaceRE `[^0-9]` "" . -}}
+{{- if hasPrefix $chiffres "0" -}}
+  {{- return printf "tel:+33%s" (substr $chiffres 1) -}}
+{{- end -}}
+{{- return printf "tel:%s" $chiffres -}}

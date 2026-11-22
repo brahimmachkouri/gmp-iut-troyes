@@ -1,0 +1,6 @@
+{{ define "main" }}
+{{ partial "bandeau.html" (dict "surtitre" "L'essentiel au quotidien" "titre" .Title "texte" .Params.description) }}
+<div class="shell inner-content">
+  {{ partial "grille-ressources.html" . }}
+</div>
+{{ end }}

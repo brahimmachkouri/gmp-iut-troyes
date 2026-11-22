@@ -1,0 +1,59 @@
+{{ define "main" }}
+{{- /* Le site est reconstruit chaque nuit : « cette semaine » est calculé à la construction. */}}
+{{- $semaines := partial "edt-semaines.html" . }}
+{{- $aujourdhui := now }}
+{{- $courante := false }}
+{{- $prochaine := false }}
+{{- range $semaines }}
+  {{- $lundiSuivant := .lundi.AddDate 0 0 7 }}
+  {{- if and (le .lundi.Unix $aujourdhui.Unix) (lt $aujourdhui.Unix $lundiSuivant.Unix) }}{{ $courante = . }}{{ end }}
+  {{- $dans7 := $aujourdhui.AddDate 0 0 7 }}
+  {{- if and (gt .lundi.Unix $aujourdhui.Unix) (le .lundi.Unix $dans7.Unix) }}{{ $prochaine = . }}{{ end }}
+{{- end }}
+{{ partial "bandeau.html" (dict "surtitre" "BUT GMP · toutes les promotions" "titre" .Title "texte" .Params.description) }}
+<div class="shell inner-content resource-page">
+  <div class="doc-grid">
+    <section class="doc-card doc-card-large" aria-labelledby="edt-courante">
+      <h2 id="edt-courante">Cette semaine</h2>
+      {{- with $courante }}
+      <p class="doc-meta">{{ partial "edt-libelle.html" . }}</p>
+      {{- with .description }}<p>{{ . }}</p>{{ end }}
+      <a class="button button-orange lien-sortant" href="{{ partial "lien.html" .fichier }}" target="_blank" rel="noopener">Ouvrir l’emploi du temps<span class="visually-hidden"> de cette semaine</span> <span class="doc-type">({{ partial "fichier-info.html" .fichier }})</span><span class="visually-hidden"> (nouvel onglet)</span></a>
+      {{- else }}
+      <p class="doc-meta">Aucun emploi du temps publié pour cette semaine. En cas de doute, <a href="{{ partial "lien.html" "/contact/" }}">contacte le secrétariat</a>.</p>
+      {{- end }}
+    </section>
+    <section class="doc-card doc-card-large" aria-labelledby="edt-prochaine">
+      <h2 id="edt-prochaine">Semaine prochaine</h2>
+      {{- with $prochaine }}
+      <p class="doc-meta">{{ partial "edt-libelle.html" . }}</p>
+      {{- with .description }}<p>{{ . }}</p>{{ end }}
+      <a class="button button-orange lien-sortant" href="{{ partial "lien.html" .fichier }}" target="_blank" rel="noopener">Ouvrir l’emploi du temps<span class="visually-hidden"> de la semaine prochaine</span> <span class="doc-type">({{ partial "fichier-info.html" .fichier }})</span><span class="visually-hidden"> (nouvel onglet)</span></a>
+      {{- else }}
+      <p class="doc-meta">Pas encore publié pour la semaine prochaine.</p>
+      {{- end }}
+    </section>
+  </div>
+
+  <p class="doc-permalink">Garde cette page dans tes favoris : son adresse ne change pas.<br>
+    <a href="{{ .Permalink }}">{{ .Permalink }}</a> {{ partial "bouton-copier.html" (dict "url" .Permalink "libelle" "page des emplois du temps") }}</p>
+
+  {{- with $semaines }}
+  <section class="doc-group" aria-labelledby="edt-toutes">
+    <h2 id="edt-toutes">Toutes les semaines publiées</h2>
+    <ul class="doc-list">
+      {{- range . }}
+      <li>
+        <a class="lien-sortant" href="{{ partial "lien.html" .fichier }}" target="_blank" rel="noopener">{{ partial "edt-libelle.html" . }}<span class="visually-hidden"> (nouvel onglet)</span></a>
+        <span class="doc-meta">{{ partial "fichier-info.html" .fichier }}{{ with .description }} · {{ . }}{{ end }}</span>
+      </li>
+      {{- end }}
+    </ul>
+  </section>
+  {{- end }}
+
+  {{- with .Content }}
+  <div class="prose edt-infos">{{ . }}</div>
+  {{- end }}
+</div>
+{{ end }}

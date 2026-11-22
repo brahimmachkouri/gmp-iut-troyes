@@ -1,0 +1,35 @@
+{{- /*
+  Renvoie les emplois du temps hebdomadaires (fichiers de data/edt/, créés par Decap),
+  une entrée par semaine, de la plus récente à la plus ancienne.
+  - « debut » peut être n'importe quel jour de la semaine : on le ramène au lundi.
+  - Si deux fiches portent sur la même semaine (version corrigée), la dernière créée
+    l'emporte : le nom du fichier commence par sa date et son heure de création.
+*/ -}}
+{{- $toutes := slice -}}
+{{- range $nom, $e := hugo.Data.edt -}}
+  {{- if and (reflect.IsMap $e) $e.fichier $e.debut -}}
+    {{- $jour := time.AsTime $e.debut -}}
+    {{- $decalage := mod (add (int $jour.Weekday) 6) 7 -}}
+    {{- $lundi := $jour.AddDate 0 0 (mul -1 $decalage) -}}
+    {{- $fin := $lundi.AddDate 0 0 4 -}}
+    {{- with $e.fin }}{{ $fin = time.AsTime . }}{{ end -}}
+    {{- $toutes = $toutes | append (dict
+      "cle" ($lundi.Format "2006-01-02")
+      "lundi" $lundi
+      "fin" $fin
+      "numero" $e.numero
+      "fichier" $e.fichier
+      "description" $e.description
+      "tri" (printf "%s|%s" ($lundi.Format "2006-01-02") $nom)
+    ) -}}
+  {{- end -}}
+{{- end -}}
+{{- $vues := dict -}}
+{{- $resultat := slice -}}
+{{- range sort $toutes "tri" "desc" -}}
+  {{- if not (index $vues .cle) -}}
+    {{- $vues = merge $vues (dict .cle true) -}}
+    {{- $resultat = $resultat | append . -}}
+  {{- end -}}
+{{- end -}}
+{{- return $resultat -}}

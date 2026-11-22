@@ -1,0 +1,16 @@
+{{- /* Renvoie « PDF, 240 Ko » pour un chemin public du type /fichiers/x.pdf. */ -}}
+{{- $type := strings.TrimPrefix "." (path.Ext .) | upper -}}
+{{- $chemin := path.Join "static" . -}}
+{{- $taille := "" -}}
+{{- if os.FileExists $chemin -}}
+  {{- $octets := (os.Stat $chemin).Size -}}
+  {{- if ge $octets 1048576 -}}
+    {{- $taille = replace (printf "%.1f Mo" (div (float $octets) 1048576)) "." "," -}}
+  {{- else -}}
+    {{- $taille = printf "%d Ko" (add (div $octets 1024) 1) -}}
+  {{- end -}}
+{{- end -}}
+{{- if $taille -}}
+  {{- return printf "%s, %s" $type $taille -}}
+{{- end -}}
+{{- return $type -}}

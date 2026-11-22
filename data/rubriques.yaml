@@ -1,0 +1,13 @@
+# Rubriques de documents (les emplois du temps hebdomadaires ont leur propre rubrique :
+# data/edt/, page /emploi-du-temps/).
+# Chaque rubrique avec « page: true » a une adresse fixe : /documents/<id>/
+# Cette page affiche toujours le document le plus récent de la rubrique,
+# quel que soit le nom du fichier déposé.
+#
+# Pour ajouter une rubrique : l'ajouter ici ET dans static/admin/config.yml
+# (liste « options » du champ rubrique). Voir MAINTENANCE.md.
+
+- id: autre
+  titre: Autres documents
+  description: Documents ponctuels, sans page dédiée.
+  page: false

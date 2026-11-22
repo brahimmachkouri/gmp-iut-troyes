@@ -1,0 +1,22 @@
+{{ define "main" }}
+{{- $c := hugo.Data.contact }}
+{{- $liens := hugo.Data.liens }}
+{{ partial "bandeau.html" (dict "surtitre" "Département GMP" "titre" .Title "texte" "Le secrétariat du département répond à tes questions.") }}
+<div class="shell inner-content contact-layout">
+  <section class="contact-card" aria-labelledby="contact-coordonnees">
+    <p class="eyebrow eyebrow-purple">Coordonnées</p>
+    <h2 id="contact-coordonnees">Département GMP</h2>
+    <address>IUT de Troyes<br>{{ $c.adresse_ligne1 }}<br>{{ $c.adresse_ligne2 }}</address>
+    <div class="contact-actions">
+      <a href="{{ partial "tel.html" $c.telephone }}"><span>Téléphone</span><strong>{{ $c.telephone }}</strong></a>
+      <a href="mailto:{{ $c.email }}"><span>Accueil du département</span><strong>{{ $c.email }}</strong></a>
+    </div>
+  </section>
+  <aside class="contact-aside">
+    <h2>Informations sur la formation</h2>
+    <p>Pour le programme du BUT GMP et les modalités de candidature, consulte les informations officielles de l’IUT.</p>
+    <a class="text-link" href="{{ $liens.formation }}" target="_blank" rel="noopener">BUT GMP — site officiel <span aria-hidden="true">↗</span><span class="visually-hidden"> (nouvel onglet)</span></a>
+    <a class="text-link" href="{{ $liens.candidatures }}" target="_blank" rel="noopener">Candidatures <span aria-hidden="true">↗</span><span class="visually-hidden"> (nouvel onglet)</span></a>
+  </aside>
+</div>
+{{ end }}

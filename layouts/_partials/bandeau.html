@@ -1,0 +1,8 @@
+{{- /* Bandeau de titre des pages intérieures. Entrée : dict "surtitre" "titre" "texte". */ -}}
+<div class="inner-hero">
+  <div class="shell">
+    <p class="eyebrow">{{ .surtitre }}</p>
+    <h1>{{ .titre }}</h1>
+    {{- with .texte }}<p>{{ . }}</p>{{ end }}
+  </div>
+</div>

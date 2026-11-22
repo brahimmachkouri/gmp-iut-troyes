@@ -1,0 +1,27 @@
+{{- $c := hugo.Data.contact }}
+<footer class="site-footer">
+  <div class="shell footer-grid">
+    <div class="footer-brand">
+      <img src="{{ partial "lien.html" "/images/logo-iut-white.png" }}" width="1254" height="1254" alt="IUT de Troyes" loading="lazy">
+      <div><strong>Département GMP</strong><span>Génie mécanique et productique</span></div>
+    </div>
+    <address>
+      <strong>Nous trouver</strong>
+      IUT de Troyes<br>
+      {{ $c.adresse_ligne1 }}<br>
+      {{ $c.adresse_ligne2 }}
+    </address>
+    <div class="footer-contact">
+      <strong>Nous joindre</strong>
+      <a href="{{ partial "tel.html" $c.telephone }}">{{ $c.telephone }}</a>
+      <a href="mailto:{{ $c.email }}">{{ $c.email }}</a>
+    </div>
+  </div>
+  <div class="shell footer-bottom">
+    <span>© {{ now.Year }} GMP · IUT de Troyes</span>
+    <a class="lien-sortant" href="https://www.univ-reims.fr/" target="_blank" rel="noopener">Université de Reims Champagne-Ardenne<span class="visually-hidden"> (nouvel onglet)</span></a>
+    <a href="{{ partial "lien.html" "/mentions-legales/" }}">Mentions légales</a>
+    <a href="{{ partial "lien.html" "/accessibilite/" }}">Accessibilité : non conforme</a>
+    <a href="{{ partial "lien.html" "/admin/" }}">Administration du site</a>
+  </div>
+</footer>

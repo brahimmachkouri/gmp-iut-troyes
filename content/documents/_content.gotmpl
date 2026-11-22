@@ -1,0 +1,12 @@
+{{/* Crée une page à adresse fixe /documents/<id>/ pour chaque rubrique
+     de data/rubriques.yaml marquée « page: true ». */}}
+{{ range hugo.Data.rubriques }}
+  {{ if .page }}
+    {{ $.AddPage (dict
+      "kind" "page"
+      "path" .id
+      "title" .titre
+      "params" (dict "rubrique" .id "description" .description)
+    ) }}
+  {{ end }}
+{{ end }}

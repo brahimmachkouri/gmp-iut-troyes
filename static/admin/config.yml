@@ -1,0 +1,263 @@
+# Interface d'administration du site GMP (Decap CMS).
+# Publication directe : « Publier » met le site à jour en une à deux minutes.
+
+# Essai sur l'ordinateur : avec « npx decap-server » lancé dans le dossier du projet,
+# http://localhost:1313/admin/ modifie directement les fichiers, sans connexion GitHub.
+# Sans effet sur le site en ligne (Decap n'utilise ce mode que sur localhost).
+local_backend: true
+
+backend:
+  name: github
+  repo: brahimmachkouri/gmp-iut-troyes
+  branch: main
+  base_url: https://gmp-decap-auth.gmp-iut-troyes.workers.dev # Worker Cloudflare (dossier oauth-worker/).
+  auth_endpoint: auth
+  commit_messages:
+    create: "Ajout : {{slug}}"
+    update: "Mise à jour : {{slug}}"
+    delete: "Suppression : {{slug}}"
+    uploadMedia: "Fichier ajouté : {{path}}"
+    deleteMedia: "Fichier supprimé : {{path}}"
+
+locale: fr
+# Adresse publique du site (liens « Voir en direct » de l'administration).
+site_url: https://brahimmachkouri.github.io/gmp-iut-troyes/
+display_url: https://brahimmachkouri.github.io/gmp-iut-troyes/
+
+# Images des actualités.
+media_folder: static/images/actualites
+public_folder: /images/actualites
+
+slug:
+  encoding: ascii
+  clean_accents: true
+  sanitize_replacement: "-"
+
+collections:
+  # ------------------------------------------------------------------
+  # EMPLOIS DU TEMPS : un PDF par semaine, toutes promotions.
+  # ------------------------------------------------------------------
+  - name: edt
+    label: Emplois du temps (chaque semaine)
+    label_singular: emploi du temps
+    description: >
+      Chaque semaine : cliquez sur « ＋ emploi du temps », indiquez la semaine,
+      déposez le PDF, puis « Publier ». Le site affiche tout seul « Cette semaine » et
+      « Semaine prochaine ». Pour corriger une semaine déjà publiée, ouvrez-la et
+      remplacez le fichier.
+    folder: data/edt
+    extension: yml
+    format: yml
+    create: true
+    delete: true
+    editor: { preview: false }
+    identifier_field: debut
+    slug: "{{year}}{{month}}{{day}}-{{hour}}{{minute}}{{second}}"
+    summary: "Semaine du {{debut | date('DD/MM/YYYY')}} {{numero}}"
+    sortable_fields: [debut]
+    fields:
+      - label: Semaine du
+        name: debut
+        widget: datetime
+        format: YYYY-MM-DD
+        date_format: DD/MM/YYYY
+        time_format: false
+        hint: "Le lundi de la semaine. Si vous choisissez un autre jour, le site retrouve le lundi tout seul."
+      - label: Numéro de la semaine
+        name: numero
+        widget: number
+        value_type: int
+        required: false
+        hint: "Par exemple 12 pour « Semaine 12 ». Peut rester vide."
+      - label: Fichier PDF de l'emploi du temps
+        name: fichier
+        widget: file
+        media_folder: /static/fichiers/edt
+        public_folder: /fichiers/edt
+        choose_url: false
+        hint: "Le nom du fichier n'a pas d'importance."
+      - label: Dernier jour de la semaine
+        name: fin
+        widget: datetime
+        format: YYYY-MM-DD
+        date_format: DD/MM/YYYY
+        time_format: false
+        required: false
+        default: ""
+        hint: "À remplir seulement si la semaine ne se termine pas le vendredi (par exemple le samedi)."
+      - label: Précision
+        name: description
+        widget: string
+        required: false
+        hint: "Une ligne, par exemple : Version corrigée — salle modifiée mardi."
+
+  # ------------------------------------------------------------------
+  # DOCUMENTS : emplois du temps, règlements, documents ponctuels.
+  # ------------------------------------------------------------------
+  - name: documents
+    label: Autres documents (PDF)
+    label_singular: document
+    description: >
+      Pour mettre en ligne un document ponctuel (lexique, note, formulaire…) : cliquez sur
+      « ＋ document », donnez-lui un titre, déposez le fichier, puis « Publier ».
+      Il apparaît sur la page Documents du site, avec un bouton « Copier le lien ».
+      Les emplois du temps de la semaine se publient dans « Emplois du temps ».
+    folder: data/documents
+    extension: yml
+    format: yml
+    create: true
+    delete: true
+    editor: { preview: false }
+    identifier_field: titre
+    slug: "{{year}}{{month}}{{day}}-{{hour}}{{minute}}{{second}}-{{slug}}"
+    summary: "{{titre}} — {{mis_a_jour | date('DD/MM/YYYY')}}"
+    sortable_fields: [mis_a_jour, titre]
+    fields:
+      # Une seule rubrique pour l'instant. Pour en créer d'autres : voir MAINTENANCE.md.
+      - { label: Rubrique, name: rubrique, widget: hidden, default: autre }
+      - label: Titre du document
+        name: titre
+        widget: string
+        hint: "Exemple : Lexique de mécanique français → anglais. C'est ce que verront les étudiants."
+      - label: Fichier (PDF de préférence)
+        name: fichier
+        widget: file
+        media_folder: /static/fichiers
+        public_folder: /fichiers
+        choose_url: false
+        hint: "Le nom du fichier n'a pas d'importance."
+      # Ne pas nommer ce champ « date » : Decap s'en servirait pour l'heure du nom de
+      # fichier (toujours minuit), qui départage deux versions publiées le même jour.
+      - label: Mis à jour le
+        name: mis_a_jour
+        widget: datetime
+        format: YYYY-MM-DD
+        date_format: DD/MM/YYYY
+        time_format: false
+        default: "{{now}}"
+        hint: "Rempli automatiquement avec la date du jour."
+      - label: Précision
+        name: description
+        widget: string
+        required: false
+        hint: "Une ligne, par exemple : Groupe TP B, modification salle mardi."
+
+  # ------------------------------------------------------------------
+  # ACTUALITÉS
+  # ------------------------------------------------------------------
+  - name: actualites
+    label: Actualités
+    label_singular: actualité
+    folder: content/actualites
+    # N'affiche que les fiches marquées « fiche: actualite », ce qui masque le fichier
+    # technique _index.md. Decap ne sait filtrer que sur une valeur exacte.
+    filter: { field: fiche, value: actualite }
+    create: true
+    delete: true
+    editor: { preview: false }
+    slug: "{{slug}}"
+    summary: "{{title}} — {{date | date('DD/MM/YYYY')}}"
+    sortable_fields: [date, title]
+    fields:
+      - { label: Fiche, name: fiche, widget: hidden, default: actualite }
+      - { label: Titre, name: title, widget: string }
+      - label: Date de publication
+        name: date
+        widget: datetime
+        format: YYYY-MM-DD
+        date_format: DD/MM/YYYY
+        time_format: false
+        default: "{{now}}"
+      - label: Résumé
+        name: chapo
+        widget: text
+        hint: "Une ou deux phrases, affichées dans la liste des actualités."
+      - label: Photo
+        name: image
+        widget: image
+        required: false
+        choose_url: false
+      - { label: Texte de l’actualité, name: body, widget: markdown }
+
+  # ------------------------------------------------------------------
+  # PAGES DE RESSOURCES PÉDAGOGIQUES
+  # ------------------------------------------------------------------
+  - name: ressources
+    label: Pages « Ressources pédagogiques »
+    label_singular: page de ressources
+    folder: content/ressources
+    # N'affiche que les fiches marquées « fiche: ressource » (masque _index.md).
+    filter: { field: fiche, value: ressource }
+    create: true
+    delete: true
+    editor: { preview: false }
+    slug: "{{slug}}"
+    summary: "{{weight}}. {{title}}"
+    sortable_fields: [weight, title]
+    fields:
+      - { label: Fiche, name: fiche, widget: hidden, default: ressource }
+      - { label: Titre de la page, name: title, widget: string }
+      - label: Phrase de présentation
+        name: description
+        widget: string
+        hint: "Affichée sous le titre et sur la carte de la page d'accueil."
+      - label: Position sur la page d'accueil
+        name: weight
+        widget: number
+        value_type: int
+        min: 1
+        default: 10
+        hint: "1 = en premier."
+      - { label: Texte de la page, name: body, widget: markdown }
+
+  # ------------------------------------------------------------------
+  # COORDONNÉES ET LIENS
+  # ------------------------------------------------------------------
+  - name: reglages
+    label: Coordonnées, liens et pages légales
+    delete: false
+    editor: { preview: false }
+    files:
+      - label: Page « Emploi du temps » (liens utiles)
+        name: page_edt
+        file: content/emploi-du-temps/_index.md
+        fields:
+          - { label: Titre de la page, name: title, widget: string }
+          - { label: Phrase de présentation, name: description, widget: string }
+          - { label: Texte sous la liste des semaines, name: body, widget: markdown }
+      - label: Mentions légales
+        name: mentions
+        file: content/mentions-legales.md
+        fields:
+          - { label: Titre de la page, name: title, widget: string }
+          - { label: Phrase de présentation, name: description, widget: string }
+          - { label: Texte de la page, name: body, widget: markdown }
+      - label: Déclaration d’accessibilité
+        name: accessibilite
+        file: content/accessibilite.md
+        fields:
+          - { label: Titre de la page, name: title, widget: string }
+          - { label: Phrase de présentation, name: description, widget: string }
+          - { label: Texte de la page, name: body, widget: markdown }
+      - label: Coordonnées du département
+        name: contact
+        file: data/contact.yaml
+        fields:
+          - { label: "Adresse (ligne 1)", name: adresse_ligne1, widget: string }
+          - { label: "Adresse (ligne 2)", name: adresse_ligne2, widget: string }
+          - { label: Téléphone, name: telephone, widget: string, hint: "Exemple : 03 25 42 46 19" }
+          - { label: Adresse e-mail, name: email, widget: string }
+      - label: Liens institutionnels (page d'accueil)
+        name: liens
+        file: data/liens.yaml
+        fields:
+          - { label: "Lien du bouton « Découvrir le BUT »", name: formation, widget: string }
+          - { label: "Lien « Candidatures »", name: candidatures, widget: string }
+          - label: Accès institutionnels
+            name: acces
+            widget: list
+            summary: "{{libelle}}"
+            fields:
+              - { label: "Petit titre (ex. Scolarité)", name: categorie, widget: string }
+              - { label: Nom du lien, name: libelle, widget: string }
+              - { label: Adresse du site, name: url, widget: string }

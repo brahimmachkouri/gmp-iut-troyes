@@ -1,0 +1,12 @@
+{{ define "main" }}
+{{ partial "bandeau.html" (dict "surtitre" "Ressources pédagogiques" "titre" .Title "texte" .Params.description) }}
+<div class="shell inner-content resource-page">
+  {{- with .Params.documents }}
+  <div class="doc-grid">
+    {{- range . }}{{ partial "carte-rubrique.html" . }}{{ end }}
+  </div>
+  {{- end }}
+  <div class="prose">{{ .Content }}</div>
+  <a class="back-link" href="{{ partial "lien.html" "/ressources/" }}">← Toutes les ressources pédagogiques</a>
+</div>
+{{ end }}

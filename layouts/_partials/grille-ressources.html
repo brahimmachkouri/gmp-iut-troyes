@@ -1,0 +1,11 @@
+<div class="resource-grid">
+  {{- $liste := slice (site.GetPage "/emploi-du-temps") | append (site.GetPage "/ressources").Pages.ByWeight }}
+  {{- range $i, $p := $liste }}
+  <a class="resource-card" href="{{ $p.RelPermalink }}">
+    <span class="resource-num">{{ printf "%02d" (add $i 1) }}</span>
+    <strong>{{ $p.Title }}</strong>
+    <span class="resource-description">{{ $p.Params.description }}</span>
+    <span class="resource-arrow" aria-hidden="true">↗</span>
+  </a>
+  {{- end }}
+</div>
