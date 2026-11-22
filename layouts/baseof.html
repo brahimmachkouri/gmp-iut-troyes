@@ -10,7 +10,9 @@
   <meta property="og:title" content="{{ .Title }}">
   <meta property="og:description" content="{{ $description }}">
   <link rel="canonical" href="{{ .Permalink }}">
-  <link rel="icon" type="image/png" href="{{ partial "lien.html" "/images/logo-gmp.png" }}">
+  <link rel="icon" href="{{ partial "lien.html" "/favicon.ico" }}" sizes="any">
+  <link rel="icon" type="image/png" href="{{ partial "lien.html" "/images/favicon-32.png" }}">
+  <link rel="apple-touch-icon" href="{{ partial "lien.html" "/images/icone-180.png" }}">
   <title>{{ if .IsHome }}{{ site.Title }}{{ else if eq .Kind "404" }}Page introuvable — {{ site.Title }}{{ else }}{{ .Title }} — {{ site.Title }}{{ end }}</title>
   {{- $css := resources.Get "css/style.css" | minify | fingerprint }}
   <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
