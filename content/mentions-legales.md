@@ -9,7 +9,7 @@ IUT de Troyes — Département Génie mécanique et productique (GMP)\
 9, rue de Québec, CS 90396, 10026 Troyes cedex\
 Téléphone : 03 25 42 46 19
 
-**Directeur de la publication :** [À compléter : nom et fonction]
+**Directeur de la publication :** Chef du département GMP
 
 ## Hébergement
 
