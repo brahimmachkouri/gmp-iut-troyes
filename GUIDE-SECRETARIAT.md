@@ -4,6 +4,11 @@ Tout se fait depuis une seule adresse : **https://gmp.iut-troyes.univ-reims.fr/a
 
 Après avoir cliqué sur **Publier**, le site est à jour en une à deux minutes.
 
+**Préférez-vous une démonstration ?** Le [tutoriel en vidéo](https://brahimmachkouri.github.io/videos/gmp/formation-admin.mp4)
+(5 minutes, sans son, explications écrites à l'écran) montre les mêmes manipulations. Sur ordinateur, il est
+aussi accessible par le bouton **▶ Tutoriel en vidéo**, en bas à droite de l'administration. Si le
+bouton n'apparaît pas dans une fiche (fenêtre étroite ou page agrandie), revenez à la liste.
+
 ---
 
 ## Se connecter

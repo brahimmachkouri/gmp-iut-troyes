@@ -52,6 +52,7 @@ dans l'interface.
 | Pages de ressources | `content/ressources/` |
 | Coordonnées, liens | `data/contact.yaml`, `data/liens.yaml` |
 | Menu principal | `hugo.toml` |
+| Tutoriel vidéo du secrétariat | dépôt GitHub `brahimmachkouri/videos`, `gmp/formation-admin.mp4` |
 | Gabarits, style, script | `layouts/`, `assets/css/style.css`, `assets/js/app.js` |
 
 **Mécanisme des documents** : `content/documents/_content.gotmpl` crée une page `/documents/<id>/`
@@ -73,6 +74,14 @@ Pour tester une date précise en local : `hugo server --clock 2026-11-25T10:00:0
 écrit dans un texte qui mène vers un autre site ou vers un fichier (PDF, Word…), avec une flèche ↗ et
 la mention cachée « (nouvel onglet) » pour les lecteurs d'écran (RGAA). Rien à faire côté secrétariat.
 Dans les gabarits, les liens sortants portent `target="_blank" rel="noopener"` et la même mention.
+
+**Tutoriel vidéo** : la vidéo est dans un dépôt à part (`brahimmachkouri/videos`, GitHub Pages), pour
+ne pas alourdir l'historique de celui-ci. Adresse : https://brahimmachkouri.github.io/videos/gmp/formation-admin.mp4
+Pour la mettre à jour, remplacer le fichier dans ce dépôt **en gardant le même nom et le même dossier**
+(cache : 10 minutes). Si l'adresse change, la modifier dans `static/admin/index.html` et
+`GUIDE-SECRETARIAT.md`. Le bouton est masqué sur téléphone et tablette, ainsi que dans les formulaires
+quand la fenêtre fait 1200 px ou moins (il recouvrirait les champs) ; cette dernière règle repose
+sur la classe `EditorControlBar` de Decap, à revérifier lors d'un changement de version.
 
 ## Ajouter une rubrique
 

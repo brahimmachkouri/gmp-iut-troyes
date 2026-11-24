@@ -14,9 +14,33 @@
         background: url("../images/logo-urca.png") center / contain no-repeat;
       }
       [class*="NetlifyCreditIcon"] svg { display: none; }
+
+      /* Lien vers le tutoriel vidéo : couleurs et arrondi du site (assets/css/style.css). */
+      .tuto-video {
+        position: fixed; right: 20px; bottom: 20px;
+        z-index: 290; /* sous la barre d'outils de Decap (300) */
+        background: #2f205c; color: #fff; text-decoration: none;
+        font: 600 14px/1 system-ui, sans-serif;
+        padding: 11px 16px; border-radius: 5px;
+        border: 1px solid transparent; /* visible en mode contraste élevé */
+        box-shadow: 0 2px 6px rgba(0,0,0,.2);
+      }
+      .tuto-video:hover { background: #4b3183; }
+      .tuto-video:focus-visible { outline: 3px solid #2f205c; outline-offset: 4px; }
+      /* Téléphones et tablettes : tutoriel inutile. */
+      @media (hover: none) and (pointer: coarse) {
+        .tuto-video { display: none; }
+      }
+      /* Fenêtre étroite ou page zoomée : masqué dans les formulaires, qu'il recouvrirait. */
+      @media (max-width: 1200px) {
+        body:has([class*="EditorControlBar"]) .tuto-video { display: none; }
+      }
     </style>
   </head>
   <body>
+    <!-- Vidéo hébergée hors de ce dépôt (voir MAINTENANCE.md). -->
+    <a class="tuto-video" href="https://brahimmachkouri.github.io/videos/gmp/formation-admin.mp4" target="_blank" rel="noopener"
+       aria-label="Tutoriel en vidéo (nouvel onglet)"><span aria-hidden="true">▶</span> Tutoriel en vidéo</a>
     <!-- Version figée volontairement : ne pas remplacer par une version flottante. -->
     <script src="https://unpkg.com/decap-cms@3.18.0/dist/decap-cms.js"></script>
   </body>
