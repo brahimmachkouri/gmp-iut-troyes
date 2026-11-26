@@ -3,5 +3,5 @@ main = "src/index.js"
 compatibility_date = "2026-11-21"
 
 [vars]
-SITE_ORIGIN = "https://brahimmachkouri.github.io"
+SITE_ORIGIN = "https://gmp.iut-troyes.univ-reims.fr"
 GITHUB_SCOPE = "public_repo"

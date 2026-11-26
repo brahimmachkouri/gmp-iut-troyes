@@ -24,8 +24,8 @@ locale: fr
 logo:
   src: ../images/logo-gmp.png
 # Adresse publique du site (liens « Voir en direct » de l'administration).
-site_url: https://brahimmachkouri.github.io/gmp-iut-troyes/
-display_url: https://brahimmachkouri.github.io/gmp-iut-troyes/
+site_url: https://gmp.iut-troyes.univ-reims.fr/
+display_url: https://gmp.iut-troyes.univ-reims.fr/
 
 # Images des actualités.
 media_folder: static/images/actualites
