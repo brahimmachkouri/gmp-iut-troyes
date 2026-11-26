@@ -1,7 +1,7 @@
 ---
-title: Liens utiles
-description: Liens utiles pour toutes les promotions du BUT GMP, mis à jour par
-  le secrétariat.
+title: Emplois du temps
+description: Emplois du temps pour toutes les promotions du BUT GMP, mis à jour
+  par le secrétariat.
 ---
 ## Liens utiles
 
