@@ -1,6 +1,7 @@
 ---
-title: Emploi du temps
-description: L’emploi du temps de la semaine pour toutes les promotions du BUT GMP, mis à jour par le secrétariat.
+title: Liens utiles
+description: Liens utiles pour toutes les promotions du BUT GMP, mis à jour par
+  le secrétariat.
 ---
 ## Liens utiles
 
